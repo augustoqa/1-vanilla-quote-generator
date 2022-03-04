@@ -3,9 +3,25 @@ const quoteText = document.getElementById('quote')
 const authorText = document.getElementById('author')
 const twitterBtn = document.getElementById('twitter')
 const newQuoteBtn = document.getElementById('new-quote')
+const loader = document.getElementById('loader')
+
+// Show Loading
+function loading() {
+	loader.hidden = false
+	quoteContainer.hidden = true
+}
+
+// Hide Loading
+function complete() {
+	if (!loader.hidden) {
+		quoteContainer.hidden = false
+		loader.hidden = true
+	}
+}
 
 // Get Quote From API
 async function getQuote() {
+	loading()
 	const apiUrl = 'https://api.quotable.io/random'
 
 	try {
@@ -21,7 +37,8 @@ async function getQuote() {
 
 		authorText.innerText = data.author
 		quoteText.innerText = data.content
-		console.log(data)
+		// Stop Loader, Show Quote
+		complete()
 	} catch (error) {
 		console.log('whoops, no quote', error)
 	}
