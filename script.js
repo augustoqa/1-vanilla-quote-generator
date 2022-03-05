@@ -5,23 +5,20 @@ const twitterBtn = document.getElementById('twitter')
 const newQuoteBtn = document.getElementById('new-quote')
 const loader = document.getElementById('loader')
 
-// Show Loading
-function loading() {
+function showLoadingSpinner() {
 	loader.hidden = false
 	quoteContainer.hidden = true
 }
 
-// Hide Loading
-function complete() {
+function removeLoadingSpinner() {
 	if (!loader.hidden) {
 		quoteContainer.hidden = false
 		loader.hidden = true
 	}
 }
 
-// Get Quote From API
-async function getQuote() {
-	loading()
+async function getQuoteFromAPI() {
+	showLoadingSpinner()
 	const apiUrl = 'https://api.quotable.io/random'
 
 	try {
@@ -37,8 +34,8 @@ async function getQuote() {
 
 		authorText.innerText = data.author
 		quoteText.innerText = data.content
-		// Stop Loader, Show Quote
-		complete()
+		
+		removeLoadingSpinner()
 	} catch (error) {
 		console.log('whoops, no quote', error)
 	}
@@ -53,8 +50,8 @@ function tweetQuote() {
 }
 
 // Event Listener
-newQuoteBtn.addEventListener('click', getQuote)
+newQuoteBtn.addEventListener('click', getQuoteFromAPI)
 twitterBtn.addEventListener('click', tweetQuote)
 
 // On Load
-getQuote()
+getQuoteFromAPI()
